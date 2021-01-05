@@ -24,3 +24,7 @@ class MusicDbModel:
         self.connection = mariadb.connect(**self.config)
         # create a connection cursor
         self.cursor = self.connection.cursor()
+
+    def close_connection(self):
+        self.cursor.close()
+        self.connection.close()

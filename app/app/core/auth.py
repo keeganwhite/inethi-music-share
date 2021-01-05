@@ -16,12 +16,11 @@ class MusicShareAPIAuth:
         userModel.password_hash = custom_app_context.encrypt(password)
 
     @staticmethod
-    def verify_password(userModel, password, hash_to_compare):
+    def verify_password(password, hash_to_compare):
         """ Verifies the users hashed password
 
         :param hash_to_compare:
-        :param userModel: instance of the user model
-        :param password: plaintext pass
+        :param password: plaintext password
         :return: true if the password is correct and false if it is not
         """
         return custom_app_context.verify(str(password), hash_to_compare)
