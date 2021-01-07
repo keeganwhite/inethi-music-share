@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from passlib.apps import custom_app_context
 
 

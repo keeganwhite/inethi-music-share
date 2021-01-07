@@ -1,4 +1,4 @@
-
+#!/usr/bin/python3
 class User:
     """
         Class used for user and password handling for inethi-musicshare-api

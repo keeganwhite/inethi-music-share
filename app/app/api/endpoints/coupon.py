@@ -1,7 +1,5 @@
-from flask import jsonify
-from ...core import auth
+#!/usr/bin/python3
 from flask import request, json
-from ...models import user as user_model
 from ...models import database as db_model
 from ...main import app
 from ...core import database as db_methods
@@ -15,7 +13,7 @@ cors = CORS(app)
 
 
 @cross_origin("http://localhost")
-@app.route("/api/create-coupon", methods=['POST'])
+@app.route("/api/create-coupon/", methods=['POST'])
 def create_coupon():
     """ Creates a coupon
     :return: a normal post request status code and message explaining the status code

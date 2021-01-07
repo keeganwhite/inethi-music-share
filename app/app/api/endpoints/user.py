@@ -1,5 +1,4 @@
-# from ...core.database import users
-from ...core import auth
+#!/usr/bin/python3
 from flask import request, json
 from ...models import user as user_model
 from ...models import database as db_model
@@ -7,7 +6,6 @@ from ...main import app
 from ...core import database as db_methods
 from ...core import auth
 from flask_cors import CORS, cross_origin
-from ..utils import senseless_print
 
 # @app.route("/users/")
 # def route_users():
@@ -20,14 +18,28 @@ from ..utils import senseless_print
 cors = CORS(app)
 
 
+@app.route("/test/", methods=['GET'])
+def test():
+    message = {
+        "message": "hello from user.py endpoint"
+    }
+    response = app.response_class(
+        response=json.dumps(message),
+        status=200,
+        mimetype="application/json"
+    )
+    # db_model_object.close_connection()
+    return response  # automatically jsonify'd
+
+
 @cross_origin("http://localhost")
-@app.route('/api/newuser', methods=['POST'])
+@app.route('/api/newuser/', methods=['POST'])
 def new_user():
     """
     Add a new user to the DB
     :return: a normal post request status code and message explaining the status code
     """
-    db_model_object = db_model.MusicDbModel()
+
     username = request.json.get('username')
     password = request.json.get('password')
     user = user_model.User(username)
@@ -40,9 +52,10 @@ def new_user():
             status=400,
             mimetype="application/json"
         )
-        db_model_object.close_connection()
+        # db_model_object.close_connection()
         return response  # automatically jsonify'd
     # check if user exists
+    db_model_object = db_model.MusicDbModel()
     db_methods_class = db_methods.MusicShareDbAPI()
     is_user = db_methods_class.check_for_user(db_model_object, user.username)
     if is_user == -1:

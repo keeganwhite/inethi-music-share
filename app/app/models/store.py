@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from woocommerce import API
 import json
 
