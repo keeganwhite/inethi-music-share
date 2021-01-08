@@ -11,3 +11,8 @@ To do:
 - Write a bash script to build the system and the realted systems from scrath for new users
 - Update the docker-compose file to add the WordPress and database instance
 - Add a chat bot to send artists notifications using a matrix server or something equivalent
+
+Customisation intsructions:
+- If you wish to alter the python code and use imports that aren't already used update the requirements.txt file and the prestart.sh text will make sure these are imported before your API starts up
+- If you wish to expose other ports you can do so in the dockerfile using EXPOSE 'port number'
+- If you wish to run the flask application in debug mode you can use the override docker compose file. This is strictly for development purposes and should not be used for production
