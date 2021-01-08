@@ -7,14 +7,7 @@ from ...core import database as db_methods
 from ...core import auth
 from flask_cors import CORS, cross_origin
 
-# @app.route("/users/")
-# def route_users():
-#     users_data = []
-#     for user in users:
-#         user_data = {"name": user.name, "email": user.email}
-#         users_data.append(user_data)
-#     senseless_print()
-#     return jsonify(users_data)
+
 cors = CORS(app)
 
 

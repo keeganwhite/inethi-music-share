@@ -11,7 +11,7 @@ class WooModel:
 
     def __init__(self, location):
         """
-            Creates an object that is used to call functions that work with the WooCommerce API
+        Creates an object that is used to call functions that work with the WooCommerce API
         """
         if location.upper() == "LOCAL":
             filename = "config/local_store_config_data.json"

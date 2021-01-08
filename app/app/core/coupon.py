@@ -20,6 +20,7 @@ class CouponAPI:
     def create(storeModel, song_name, user, code):
         """ Gets called by the API when a coupon form is submitted
 
+        :param storeModel: the database object
         :param code: -1 if the coupon code has not been established for one of the stores or the coupon code to be used
         to sync local and global stores
         :param song_name: song for the coupon to be made for

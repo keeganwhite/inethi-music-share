@@ -27,5 +27,13 @@ class MusicDbModel:
         self.cursor = self.connection.cursor()
 
     def close_connection(self):
-        self.cursor.close()
-        self.connection.close()
+        """
+        Closes DB connection once the API call is complete.
+        :return: true if the connection is closes else return false
+        """
+        try:
+            self.cursor.close()
+            self.connection.close()
+            return True
+        except:
+            return False

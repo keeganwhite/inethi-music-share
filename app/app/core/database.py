@@ -20,7 +20,7 @@ class MusicShareDbAPI:
         """
         try:
             dbModel.cursor.execute("INSERT INTO `users`(`user_name`, `password`) VALUES (?, ?)",
-                                (username, hashed_password))
+                                   (username, hashed_password))
             dbModel.connection.commit()  # commit changes
         except mariadb.Error as e:
             print(f"Error: {e}")
@@ -255,3 +255,27 @@ class MusicShareDbAPI:
             print(f"Error: {e}")
             return False
         return True
+
+    @staticmethod
+    def get_upload_details(dbModel, file_name):
+        """ Get contact form 7 value for the upload, which contains all the details needed to create the song in the shop
+
+        :param file_name:
+        :param dbModel:
+        :param file_name: the file that has been added to the wordpress user-upload folder that triggers
+        this script to run
+        :return: the data needed to creat the WooCommerce product or -1 if the db read fails
+        """
+        upload_data = []
+        like_formatted_name = "%uploads%" + file_name + "%"  # include uploads to ignore any other forms submitted
+        sql_command = "SELECT form_value FROM `wp_db7_forms` WHERE form_value like '" + like_formatted_name + "' ORDER BY `form_date` DESC LIMIT 1 "
+        try:
+            dbModel.cursor.execute(sql_command)
+        except mariadb.Error as e:
+            print(f"Error: {e}")
+            return -1
+        for (form_value) in dbModel.cursor:
+            upload_data.append(form_value)
+        upload_data_tuple = upload_data[0]
+        result = upload_data_tuple[0]
+        return result

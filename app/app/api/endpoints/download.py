@@ -12,7 +12,7 @@ cors = CORS(app)
 
 
 @cross_origin("http://localhost")
-@app.route("/api/updatedownloads/", methods=["POST"])
+@app.route("/api/update-downloads/", methods=["POST"])
 def update_downloads():
     """
     Update the download counter for the current time
@@ -50,7 +50,7 @@ def update_downloads():
 
 
 @cross_origin("http://localhost")
-@app.route("/api/initiatedownload/", methods=["POST"])
+@app.route("/api/initiate-download/", methods=["POST"])
 def initiate_download_counter():
     song_name = request.json.get('songname')
     username = request.json.get('username')
