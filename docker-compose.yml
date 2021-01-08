@@ -1,5 +1,7 @@
 version: '3'
 services:
-  web:
+  API:
+    container_name: inethi-music-share-api
     build: ./
+    restart: always
 
