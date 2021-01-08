@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 from woocommerce import API
 import json
-
+import os
+from dotenv import load_dotenv
 
 class WooModel:
     """
@@ -13,10 +14,12 @@ class WooModel:
         """
         Creates an object that is used to call functions that work with the WooCommerce API
         """
+        load_dotenv()
+
         if location.upper() == "LOCAL":
-            filename = "config/local_store_config_data.json"
+            filename = os.getenv('PATH_TO_LOCAL_STORE_CONNECTION_FILE')
         elif location.upper() == "GLOBAL":
-            filename = "config/global_store_config_data.json"
+            filename = os.getenv('PATH_TO_GLOBAL_STORE_CONNECTION_FILE')
         else:
             raise ValueError("Please choose between a 'global' or 'local' configuration (not case-sensitive)")
         with open(filename, 'r') as file:

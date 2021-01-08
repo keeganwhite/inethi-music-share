@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 import json
 import requests
-
+import os
+from dotenv import load_dotenv
 
 class ProductAPI:
     @staticmethod
@@ -21,6 +22,8 @@ class ProductAPI:
         # TODO add error log and check file order for db.get_upload_details
         # TODO uncomment all global calls when AWS is up again
         log_filename = "product_creation_error_log.txt"
+        load_dotenv()
+        api_endpoint = os.getenv('API_ENDPOINT')
         # Create API objects
         local_woocommerce = localStoreModel
         global_woocommerce = globalStoreModel
@@ -109,7 +112,7 @@ class ProductAPI:
                     file = open(log_filename, "a")
                     error_msg = file_name + " could not be added to aws store"
                     file.write(error_msg)"""
-                api_url = "http://0.0.0.0/api/initiate-download/"
+
                 body = {
                     "songname": song_name,
                     "username": username,
@@ -118,7 +121,7 @@ class ProductAPI:
                 }
 
                 headers = {'Content-type': 'application/json'}
-                post_request = requests.post(api_url, headers=headers, data=json.dumps(body))
+                post_request = requests.post(api_endpoint, headers=headers, data=json.dumps(body))
                 return True
             except:
                 return False

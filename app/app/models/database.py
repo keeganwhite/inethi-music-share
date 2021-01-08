@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 import mariadb
 import json
+import os
+from dotenv import load_dotenv
 
 
 class MusicDbModel:
@@ -13,7 +15,8 @@ class MusicDbModel:
         """
             Creates an object that is used to call functions to interact with a mariadb container
         """
-        filename = "config/database_connection_data.json.json"
+        load_dotenv()
+        filename = os.getenv('PATH_TO_DATABASE_CONNECTION_FILE')
         with open(filename, 'r') as file:
             self.config = json.load(file)  # loads JSON data as a dictionary
         self.host = self.config.get("host")

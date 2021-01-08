@@ -4,6 +4,7 @@ import string
 import os
 from dotenv import load_dotenv
 
+
 class CouponAPI:
     @staticmethod
     def get_random_string(length):

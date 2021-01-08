@@ -4,4 +4,64 @@ services:
     container_name: inethi-music-share-api
     build: ./
     restart: always
+    links:
+      - music-mariadb
+    networks:
+      default:
+        ipv4_address: "${MUSIC_SHARE_API_IPV4}"
+
+  music-wordpress:
+    image: wordpress:latest
+    container_name: inethi-musicshare-wordpress
+    volumes:
+      - "{$MUSIC_SHARE_WORDPRESS_MOUNT}:/var/www/html"
+      - "{$MUSIC_SHARE_WORDPRESS_MOUNT_INI_FILE}:/usr/local/etc/php/conf.d/uploads.ini"
+      - "{$MUSIC_SHARE_WORDPRESS_MOUNT_CONTENT_FOLDER}:/var/www/html/wp-content"
+    environment:
+      - "WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}"
+      - "WORDPRESS_TABLE_PREFIX=${WORDPRESS_TABLE_PREFIX}"
+      - "WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}"
+      - "WORDPRESS_DB_USER=${WORDPRESS_DB_USER}"
+      - "WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}"
+    depends_on:
+      - music-mariadb
+    restart: always
+    networks:
+      default:
+        ipv4_address: "${MUSIC_SHARE_WORDPRESS_IPV4}"
+
+  music-mariadb:
+    image: mariadb/server:10.4
+    container_name: inethi-musicshare-mariadb
+    hostname: inethi-musicshare-mariadb
+    domainname: inethi-musicshare-mariadb.inethi.net
+    volumes:
+      - "{$/mnt/data/inethi-music-share/mariadb}:/var/lib/mysql"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=${WORDPRESS_DB_PASSWORD}"
+      - "MYSQL_USER=${WORDPRESS_DB_USER}"
+      - "MYSQL_PASSWORD=${WORDPRESS_DB_PASSWORD}"
+      - "MYSQL_DATABASE=${WORDPRESS_DB_NAME}"
+    restart: always
+    networks:
+      default:
+        ipv4_address: "$MUSIC_SHARE_MARIADB_IPV4"
+
+  adminer:
+    image: adminer
+    container_name: inethi-musicshare-adminer
+    restart: always
+    links:
+      - music-mariadb
+    ports:
+      - 8080:8080
+    networks:
+      default:
+        ipv4_address: "$MUSIC_SHARE_ADMINER_IPV4"
+
+networks:
+  default:
+    external:
+      name: "$BRIDGE_NETWORK"
+
 
