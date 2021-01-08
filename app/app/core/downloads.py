@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 import datetime
 import pytz
+import os
+from dotenv import load_dotenv
 
 
 class DownloadsAPI:
@@ -16,6 +18,8 @@ class DownloadsAPI:
         :return: the result of the process where -1 is an error, a string message to confirm that there in no need to update
         or the new total downloads
         """
+        load_dotenv()
+        update_frequency = os.getenv('UPDATE_FREQUENCY_MINUTES')
         f = '%Y-%m-%d %H:%M:%S'  # the format of the MySQL date time
         # get times and find the difference between them (gmt times)
         last_update_unaware = db.get_last_update(db, username, song_name)
@@ -32,7 +36,7 @@ class DownloadsAPI:
         difference = total_seconds_dif / 60
         print(difference)
         #  if there hasn't been an update in over 30 minutes then update
-        if difference > 30:
+        if difference > update_frequency:
             id_arr = db.get_product_ids(db, username, song_name)
             id_local = id_arr[0]
             id_aws = id_arr[1]
@@ -50,4 +54,4 @@ class DownloadsAPI:
             else:
                 return -1
         else:
-            return "Has not been over 30 minutes since last update"
+            return "Has not been over " + update_frequency + " minutes since last update"

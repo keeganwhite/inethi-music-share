@@ -26,7 +26,7 @@ class ProductAPI:
         global_woocommerce = globalStoreModel
         db = dbModel
         for i in range(len(file_names)):
-            file_name = file_names[i]
+            file_name = file_names[len(file_names) - i]  # sort from newest to oldest for DB entries to correspond
 
             # Read in file name and get the original name without the date time suffix
             split_file_name = file_name.split('.')

@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 import random
 import string
-
+import os
+from dotenv import load_dotenv
 
 class CouponAPI:
     @staticmethod
@@ -27,16 +28,17 @@ class CouponAPI:
         :param user: the user who uploaded the song
         :return: the coupon code if it was successful or an error message
         """
-
+        load_dotenv()
+        coupon_code_length = os.getenv('COUPON_CODE_LENGTH')
         woocommerce = storeModel
         coupon_code = code
         if coupon_code == -1:
-            coupon_code = CouponAPI.get_random_string(10)
+            coupon_code = CouponAPI.get_random_string(coupon_code_length)
             # print(coupon_code)
             exists = True
             while exists:
                 if woocommerce.check_if_coupon_code_exists(woocommerce, coupon_code):
-                    coupon_code = CouponAPI.get_random_string(10)
+                    coupon_code = CouponAPI.get_random_string(coupon_code_length)
                 else:
                     exists = False
 
