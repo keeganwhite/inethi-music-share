@@ -7,9 +7,8 @@ An API designed to be run in tandem with a Wordpress and MongoDB docker containe
 # Usage
 
 ## Build instructions:
-- Setup Wordpress and MongoDB docker containers. (soon to be added to this repository)
-- Wordpress must use the WooCommerce e-commerce plugin (explanation to be added)
-- More to come
+- Setup Wordpress and MongoDB docker containers. (my mounted files cannot be added to this repo as it contains public and private keys as well as password information)
+- Wordpress must use the WooCommerce e-commerce plugin as well as... (to be added)
 
 ## Customisation instructions:
 - If you wish to alter the python code and use imports that aren't already used update the requirements.txt file and the prestart.sh text will make sure these are imported before your API starts up
@@ -40,3 +39,4 @@ To migrate Wordpress instances between different servers:
 - Write a bash script to build the system and the related systems from scratch for new users
 - Update the docker-compose file to add the WordPress and database instance
 - Add a chat bot to send artists notifications using a matrix server or something equivalent
+- Write detailed explanation of how to setup the wordpress instance
