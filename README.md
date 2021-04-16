@@ -1,20 +1,22 @@
-By Keegan White (keegan337)
+## Contributors
+Keegan White (keegan337)
 
 ## Description
 An API designed to be run in tandem with a Wordpress and MongoDB docker container. The API is hosted in an Nginx and Python 3.8 hybrid docker container. This will project will eventually be incorporated into the iNethi environment in Ocean View South Africa. This project is an extension of an BSc Computer Science honours level thesis completed in 2020 at the University of Cape Town. The aim is to build a music sharing system for musicians to upload on local servers (data free) and allow community members to download the music. There will be a AWS hosted global version of the website where music will also be available for download.
 
 ## Usage
-Build instructions:
+
+# Build instructions:
 - Setup Wordpress and MongoDB docker containers. (soon to be added to this repository)
 - Wordpress must use the WooCommerce e-commerce plugin (explanation to be added)
 - More to come
 
-## Customisation instructions:
+# Customisation instructions:
 - If you wish to alter the python code and use imports that aren't already used update the requirements.txt file and the prestart.sh text will make sure these are imported before your API starts up
 - If you wish to expose other ports you can do so in the dockerfile using EXPOSE 'port number'
 - If you wish to run the flask application in debug mode you can use the override docker compose file. This is strictly for development purposes and should not be used for production
 
-## Migration and setup (needs to be updated and bash script will do this for you)
+# Migration and setup (needs to be updated and bash script will do this for you)
 To migrate Wordpress instances between different servers:
 1. Compress wp-content folder from the version of the website you wish migrate. Export the corresponding database using adminer (at port 8080)
 2. Startup new mariadb and adminer using the docker-compose.yml file on the new server:
