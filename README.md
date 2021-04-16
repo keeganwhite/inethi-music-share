@@ -9,12 +9,12 @@ Build instructions:
 - Wordpress must use the WooCommerce e-commerce plugin (explanation to be added)
 - More to come
 
-Customisation instructions:
+## Customisation instructions:
 - If you wish to alter the python code and use imports that aren't already used update the requirements.txt file and the prestart.sh text will make sure these are imported before your API starts up
 - If you wish to expose other ports you can do so in the dockerfile using EXPOSE 'port number'
 - If you wish to run the flask application in debug mode you can use the override docker compose file. This is strictly for development purposes and should not be used for production
 
-Migration and setup (needs to be updated and bash script will do this for you)
+## Migration and setup (needs to be updated and bash script will do this for you)
 To migrate Wordpress instances between different servers:
 1. Compress wp-content folder from the version of the website you wish migrate. Export the corresponding database using adminer (at port 8080)
 2. Startup new mariadb and adminer using the docker-compose.yml file on the new server:
