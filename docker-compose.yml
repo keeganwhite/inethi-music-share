@@ -6,9 +6,12 @@ services:
     restart: always
     links:
       - music-mariadb
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=${API_RULE}"
+      - "traefik.http.routers.api.entrypoints=${API_ENTRYPOINT}"
     networks:
-      default:
-        ipv4_address: "${MUSIC_SHARE_API_IPV4}"
+      - "${INETHI_NETWORK}"
 
   music-wordpress:
     image: wordpress:latest
@@ -26,9 +29,12 @@ services:
     depends_on:
       - music-mariadb
     restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.wordpress.rule=${WORDPRESS_RULE}"
+      - "traefik.http.routers.wordpress.entrypoints=${WORDPRESS_ENTRYPOINT}"
     networks:
-      default:
-        ipv4_address: "${MUSIC_SHARE_WORDPRESS_IPV4}"
+      - "${INETHI_NETWORK}"
 
   music-mariadb:
     image: mariadb/server:10.4
@@ -36,16 +42,19 @@ services:
     hostname: inethi-musicshare-mariadb
     domainname: inethi-musicshare-mariadb.inethi.net
     volumes:
-      - "{$/mnt/data/inethi-music-share/mariadb}:/var/lib/mysql"
+      - "{$MUSIC_SHARE_MARIADB_MOUNT}:/var/lib/mysql"
     environment:
       - "MYSQL_ROOT_PASSWORD=${WORDPRESS_DB_PASSWORD}"
       - "MYSQL_USER=${WORDPRESS_DB_USER}"
       - "MYSQL_PASSWORD=${WORDPRESS_DB_PASSWORD}"
       - "MYSQL_DATABASE=${WORDPRESS_DB_NAME}"
     restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mariadb.rule=${MARIADB_RULE}"
+      - "traefik.http.routers.mariadb.entrypoints=${MARIADB_ENTRYPOINT}"
     networks:
-      default:
-        ipv4_address: "$MUSIC_SHARE_MARIADB_IPV4"
+      - "${INETHI_NETWORK}"
 
   adminer:
     image: adminer
@@ -53,15 +62,15 @@ services:
     restart: always
     links:
       - music-mariadb
-    ports:
-      - 8080:8080
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.adminer.rule=${ADMINER_RULE}"
+      - "traefik.http.routers.adminer.entrypoints=${ADMINER_ENTRYPOINT}"
     networks:
-      default:
-        ipv4_address: "$MUSIC_SHARE_ADMINER_IPV4"
+      - "${INETHI_NETWORK}"
 
 networks:
-  default:
-    external:
-      name: "$BRIDGE_NETWORK"
+  web:
+    external: true
 
 
