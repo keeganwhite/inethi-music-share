@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-from api import api  # noqa
-from main import app
+from ..api import api  # noqa
+from ..main import app
 
 
 @app.route("/hello/")

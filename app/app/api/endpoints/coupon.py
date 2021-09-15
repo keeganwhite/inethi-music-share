@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 from flask import request, json
-from models import database as db_model
-from main import app
-from core import database as db_methods
-from core import auth
+from ...models import database as db_model
+from ...main import app
+from ...core import database as db_methods
+from ...core import auth
 from flask_cors import CORS, cross_origin
-from models import user as user_model
-from core import coupon
-from models import store as store_model
+from ...models import user as user_model
+from ...core import coupon
+from ...models import store as store_model
 
 cors = CORS(app)
 
