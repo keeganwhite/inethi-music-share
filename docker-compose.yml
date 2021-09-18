@@ -1,6 +1,6 @@
 version: '3'
 services:
-  API:
+  music-api:
     container_name: inethi-music-share-api
     build: ./
     restart: always
@@ -8,18 +8,16 @@ services:
       - music-mariadb
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.api.rule=${API_RULE}"
-      - "traefik.http.routers.api.entrypoints=${API_ENTRYPOINT}"
-    networks:
-      - "${INETHI_NETWORK}"
+      - "traefik.http.routers.musicshareapi.rule=Host(`${TRAEFIK_API_RULE_MUSICSHARE_API}`)"
+      - "traefik.http.routers.musicshareapi.entrypoints=${TRAEFIK_ENTRYPOINT}"
 
   music-wordpress:
     image: wordpress:latest
     container_name: inethi-musicshare-wordpress
     volumes:
-      - "{$MUSIC_SHARE_WORDPRESS_MOUNT}:/var/www/html"
-      - "{$MUSIC_SHARE_WORDPRESS_MOUNT_INI_FILE}:/usr/local/etc/php/conf.d/uploads.ini"
-      - "{$MUSIC_SHARE_WORDPRESS_MOUNT_CONTENT_FOLDER}:/var/www/html/wp-content"
+      - "${MUSIC_SHARE_WORDPRESS_MOUNT}:/var/www/html"
+      - "${MUSIC_SHARE_WORDPRESS_MOUNT_INI_FILE}:/usr/local/etc/php/conf.d/uploads.ini"
+      - "${MUSIC_SHARE_WORDPRESS_MOUNT_CONTENT_FOLDER}:/var/www/html/wp-content"
     environment:
       - "WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}"
       - "WORDPRESS_TABLE_PREFIX=${WORDPRESS_TABLE_PREFIX}"
@@ -31,18 +29,14 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.wordpress.rule=${WORDPRESS_RULE}"
-      - "traefik.http.routers.wordpress.entrypoints=${WORDPRESS_ENTRYPOINT}"
-    networks:
-      - "${INETHI_NETWORK}"
+      - "traefik.http.routers.musicshare.rule=Host(`${TRAEFIK_API_RULE_MUSICSHARE}`)"
+      - "traefik.http.routers.musicshare.entrypoints=${TRAEFIK_ENTRYPOINT}"
 
   music-mariadb:
     image: mariadb/server:10.4
     container_name: inethi-musicshare-mariadb
-    hostname: inethi-musicshare-mariadb
-    domainname: inethi-musicshare-mariadb.inethi.net
     volumes:
-      - "{$MUSIC_SHARE_MARIADB_MOUNT}:/var/lib/mysql"
+      - "${MUSIC_SHARE_MARIADB_MOUNT}:/var/lib/mysql"
     environment:
       - "MYSQL_ROOT_PASSWORD=${WORDPRESS_DB_PASSWORD}"
       - "MYSQL_USER=${WORDPRESS_DB_USER}"
@@ -51,12 +45,10 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mariadb.rule=${MARIADB_RULE}"
-      - "traefik.http.routers.mariadb.entrypoints=${MARIADB_ENTRYPOINT}"
-    networks:
-      - "${INETHI_NETWORK}"
+      - "traefik.http.routers.musicsharemariadb.rule=Host(`${TRAEFIK_API_RULE_MARIADB}`)"
+      - "traefik.http.routers.musicsharemariadb.entrypoints=${TRAEFIK_ENTRYPOINT}"
 
-  adminer:
+  music-adminer:
     image: adminer
     container_name: inethi-musicshare-adminer
     restart: always
@@ -64,13 +56,10 @@ services:
       - music-mariadb
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.adminer.rule=${ADMINER_RULE}"
-      - "traefik.http.routers.adminer.entrypoints=${ADMINER_ENTRYPOINT}"
-    networks:
-      - "${INETHI_NETWORK}"
+      - "traefik.http.routers.adminer.rule=Host(`${TRAEFIK_API_RULE_ADMINER}`)"
+      - "traefik.http.routers.adminer.entrypoints=${TRAEFIK_ENTRYPOINT}"
 
 networks:
-  web:
-    external: true
-
-
+  default:
+    external:
+      name: "${INETHI_NETWORK}"
